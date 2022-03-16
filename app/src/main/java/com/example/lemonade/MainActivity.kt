@@ -91,13 +91,26 @@ class MainActivity : AppCompatActivity() {
      */
     private fun clickLemonImage() {
         when(lemonadeState) {
+
+            /**
+             * When the image is clicked in the SELECT state, the state should become SQUEEZE
+             *   - The lemonSize variable needs to be set using the 'pick()' method in the LemonTree class
+             *   - The squeezeCount should be 0 since we haven't squeezed any lemons just yet.
+             */
             SELECT -> {
                 lemonadeState = SQUEEZE
                 val lemonTree = LemonTree()
                 lemonSize = lemonTree.pick()
                 squeezeCount = 0
-                setViewElements()
             }
+
+            /**
+             * When the image is clicked in the SQUEEZE state the squeezeCount needs to be
+             * INCREASED by 1 and lemonSize needs to be DECREASED by 1.
+             *   - If the lemonSize has reached 0, it has been juiced and the state should become DRINK
+             *   - Additionally, lemonSize is no longer relevant and should be set to -1
+
+             */
             SQUEEZE -> {
                 when(lemonSize) {
                     0 -> {
@@ -108,18 +121,24 @@ class MainActivity : AppCompatActivity() {
                         lemonSize--
                     }
                 }
-                setViewElements()
             }
+
+            /**
+             * When the image is clicked in the DRINK state the state should become RESTART
+             */
             DRINK -> {
                 lemonSize = -1
                 lemonadeState = RESTART
-                setViewElements()
             }
+
+            /**
+             * When the image is clicked in the RESTART state the state should become SELECT
+             */
             RESTART -> {
                 lemonadeState = SELECT
-                setViewElements()
             }
         }
+        setViewElements()
     }
 
     /**
